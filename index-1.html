@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aryan Kumar — Builder</title>
+<meta name="description" content="Aryan Kumar's builds — Martify, AryNotes, Heyy and more apps shipped from Jharkhand, India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #07070d;
+    --ink: #F3F4F8;
+    --muted: #A8AEC0;
+    --violet: #8B5CF6;
+    --cyan: #22D3EE;
+    --coral: #FF8A65;
+    --glass-1: rgba(255,255,255,0.09);
+    --glass-2: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.16);
+    --max: 900px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  h1, h2{ font-family: 'Space Grotesk', sans-serif; }
+
+  a{ color: inherit; }
+
+  :focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  /* ---------- ambient liquid background ---------- */
+
+  .field{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .blob{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    mix-blend-mode: screen;
+    opacity: 0.55;
+  }
+
+  .blob.b1{
+    width: 46vw; height: 46vw;
+    top: -12vw; left: -10vw;
+    background: radial-gradient(circle, var(--violet), transparent 70%);
+    animation: drift1 32s ease-in-out infinite alternate;
+  }
+  .blob.b2{
+    width: 40vw; height: 40vw;
+    bottom: -14vw; right: -8vw;
+    background: radial-gradient(circle, var(--cyan), transparent 70%);
+    animation: drift2 38s ease-in-out infinite alternate;
+  }
+  .blob.b3{
+    width: 30vw; height: 30vw;
+    top: 30vh; right: 12vw;
+    background: radial-gradient(circle, var(--coral), transparent 70%);
+    opacity: 0.35;
+    animation: drift3 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift1{
+    from{ transform: translate(0,0) scale(1); }
+    to{ transform: translate(6vw, 8vh) scale(1.12); }
+  }
+  @keyframes drift2{
+    from{ transform: translate(0,0) scale(1); }
+    to{ transform: translate(-7vw, -6vh) scale(1.08); }
+  }
+  @keyframes drift3{
+    from{ transform: translate(0,0) scale(1); }
+    to{ transform: translate(-5vw, 5vh) scale(0.9); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{ animation: none !important; }
+  }
+
+  /* ---------- layout ---------- */
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- glass base ---------- */
+
+  .glass{
+    position: relative;
+    background: linear-gradient(155deg, var(--glass-1), var(--glass-2));
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.22);
+    overflow: hidden;
+  }
+
+  .glass::after{
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 40%; height: 200%;
+    background: linear-gradient(75deg, transparent, rgba(255,255,255,0.16), transparent);
+    transform: translateX(-120%) rotate(8deg);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+
+  .glass:hover::after, .glass:focus-within::after{
+    transform: translateX(320%) rotate(8deg);
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero{
+    padding: clamp(64px, 12vw, 120px) 0 40px;
+  }
+
+  .kicker{
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .hero h1{
+    font-weight: 700;
+    font-size: clamp(2.6rem, 9vw, 4.6rem);
+    line-height: 1.03;
+    letter-spacing: -0.015em;
+    margin: 0 0 20px;
+    background: linear-gradient(100deg, #ffffff 20%, var(--cyan) 60%, var(--violet) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero p{
+    color: var(--muted);
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+
+  .chips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .chip{
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+
+  .chip-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .chip-link:hover, .chip-link:focus-visible{
+    color: var(--cyan);
+    border-color: rgba(34,211,238,0.5);
+  }
+
+  /* ---------- drops ---------- */
+
+  .drops{
+    padding: 56px 0 40px;
+  }
+
+  .drops h2{
+    font-weight: 600;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 0 0 28px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+  }
+
+  .card{
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 230px;
+    transition: transform 0.35s ease, border-color 0.35s ease;
+  }
+
+  .card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.32);
+  }
+
+  .card-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .badge{
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    background: linear-gradient(135deg, rgba(139,92,246,0.5), rgba(34,211,238,0.35));
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .index-no{
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .card h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0 0 10px;
+  }
+
+  .card p{
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0 0 20px;
+    flex-grow: 1;
+  }
+
+  .card-foot{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .status{
+    font-size: 0.75rem;
+    color: #6EE7B7;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status::before{
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #6EE7B7;
+    box-shadow: 0 0 8px #6EE7B7;
+  }
+
+  .open-btn{
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink);
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.05);
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .card:hover .open-btn{
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  .card.placeholder{
+    border-style: dashed;
+    background: rgba(255,255,255,0.02);
+    box-shadow: none;
+  }
+  .card.placeholder h3, .card.placeholder p{ color: var(--muted); }
+  .card.placeholder .badge{
+    background: transparent;
+    border-style: dashed;
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    margin: 40px 0 64px;
+    padding: 20px 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  footer a{
+    color: var(--cyan);
+    text-decoration: none;
+  }
+  footer a:hover, footer a:focus-visible{ text-decoration: underline; }
+
+  /* ---------- entrance ---------- */
+
+  @media (prefers-reduced-motion: no-preference){
+    .hero .kicker, .hero h1, .hero p, .hero .chips{
+      opacity: 0;
+      animation: rise 0.7s ease forwards;
+    }
+    .hero .kicker{ animation-delay: 0.05s; }
+    .hero h1{ animation-delay: 0.16s; }
+    .hero p{ animation-delay: 0.30s; }
+    .hero .chips{ animation-delay: 0.42s; }
+
+    @keyframes rise{
+      from{ opacity: 0; transform: translateY(14px); }
+      to{ opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="field">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap hero">
+    <span class="kicker glass">Student · Builder · Jharkhand, India</span>
+    <h1>Aryan Kumar</h1>
+    <p>I ship small, useful apps, one drop at a time. Three are live right now, more are on the way.</p>
+    <div class="chips">
+      <span class="chip glass">Class 9</span>
+      <span class="chip glass">3 live apps</span>
+      <span class="chip glass">Giridih, Jharkhand</span>
+      <a class="chip glass chip-link" href="https://instagram.com/ar.yan.i" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>
+        @ar.yan.i
+      </a>
+    </div>
+  </div>
+
+  <div class="wrap drops">
+    <h2>What I've shipped</h2>
+    <div class="grid">
+
+      <div class="card glass">
+        <div class="card-top">
+          <span class="badge">M</span>
+          <span class="index-no">01</span>
+        </div>
+        <h3>Project Martify</h3>
+        <p>Hyperlocal shopping for Tier 2 and 3 India — connecting local shops to nearby buyers.</p>
+        <div class="card-foot">
+          <span class="status">Live</span>
+          <a class="open-btn" href="https://projectmartify.netlify.app/">Open Martify</a>
+        </div>
+      </div>
+
+      <div class="card glass">
+        <div class="card-top">
+          <span class="badge">A</span>
+          <span class="index-no">02</span>
+        </div>
+        <h3>AryNotes</h3>
+        <p>An offline study companion with a journal-style interface, built for revising without needing data.</p>
+        <div class="card-foot">
+          <span class="status">Live</span>
+          <a class="open-btn" href="https://arynotes.netlify.app/">Open AryNotes</a>
+        </div>
+      </div>
+
+      <div class="card glass">
+        <div class="card-top">
+          <span class="badge">H</span>
+          <span class="index-no">03</span>
+        </div>
+        <h3>Heyy</h3>
+        <p>A messaging app with chat, calls, and voice notes — built solo to learn app development end to end.</p>
+        <div class="card-foot">
+          <span class="status">Live</span>
+          <a class="open-btn" href="https://heyybyaryan.netlify.app/">Open Heyy</a>
+        </div>
+      </div>
+
+      <div class="card glass placeholder">
+        <div class="card-top">
+          <span class="badge">+</span>
+          <span class="index-no">04</span>
+        </div>
+        <h3>Next drop</h3>
+        <p>In progress — this card fills in as soon as it ships.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <footer class="glass">
+      <span>aryanbuilds.qd.je</span>
+      <a href="mailto:kr.aryan441@gmail.com">kr.aryan441@gmail.com</a>
+    </footer>
+  </div>
+
+</body>
+</html>
