@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aryan Kumar — Builder</title>
 <meta name="description" content="Aryan Kumar's builds — Martify, AryNotes, Heyy and more apps shipped from Jharkhand, India.">
+<link rel="canonical" href="https://aryanbuilds.qd.je/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aryan Kumar — Builder">
+<meta property="og:description" content="Student and builder from Jharkhand, India. Martify, AryNotes, Heyy and more, shipped one drop at a time.">
+<meta property="og:url" content="https://aryanbuilds.qd.je/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Aryan Kumar — Builder">
+<meta name="twitter:description" content="Student and builder from Jharkhand, India. Martify, AryNotes, Heyy and more, shipped one drop at a time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -314,6 +322,37 @@
     border-style: dashed;
   }
 
+  /* ---------- reach ---------- */
+
+  .reach{
+    margin: 0 0 32px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .reach img{
+    width: 74px;
+    height: 74px;
+    border-radius: 10px;
+    background: #fff;
+    padding: 6px;
+    flex-shrink: 0;
+  }
+
+  .reach div p{
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .reach div p:first-child{
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
   /* ---------- footer ---------- */
 
   footer{
@@ -380,7 +419,7 @@
     <h2>What I've shipped</h2>
     <div class="grid">
 
-      <div class="card glass">
+      <div class="card glass" data-slug="martify">
         <div class="card-top">
           <span class="badge">M</span>
           <span class="index-no">01</span>
@@ -393,7 +432,7 @@
         </div>
       </div>
 
-      <div class="card glass">
+      <div class="card glass" data-slug="arynotes">
         <div class="card-top">
           <span class="badge">A</span>
           <span class="index-no">02</span>
@@ -406,7 +445,7 @@
         </div>
       </div>
 
-      <div class="card glass">
+      <div class="card glass" data-slug="heyy">
         <div class="card-top">
           <span class="badge">H</span>
           <span class="index-no">03</span>
@@ -432,6 +471,13 @@
   </div>
 
   <div class="wrap">
+    <div class="reach glass">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://aryanbuilds.qd.je" alt="QR code linking to aryanbuilds.qd.je" loading="lazy">
+      <div>
+        <p>Scan to visit</p>
+        <p>Or share aryanbuilds.qd.je directly.</p>
+      </div>
+    </div>
     <footer class="glass">
       <span>aryanbuilds.qd.je</span>
       <a href="mailto:kr.aryan441@gmail.com">kr.aryan441@gmail.com</a>
