@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aryanbuilds.qd.je/sitemap.xml

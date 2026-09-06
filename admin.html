@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Aryan Kumar</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #07070d;
+    --ink: #F3F4F8;
+    --muted: #A8AEC0;
+    --cyan: #22D3EE;
+    --violet: #8B5CF6;
+    --green: #6EE7B7;
+    --coral: #FF8A65;
+    --glass-1: rgba(255,255,255,0.09);
+    --glass-2: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.16);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0 0 4px;
+  }
+  h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 14px;
+  }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 40px 20px 80px; }
+  .sub{ color: var(--muted); margin: 0 0 28px; font-size: 0.92rem; }
+
+  .panel{
+    background: linear-gradient(155deg, var(--glass-1), var(--glass-2));
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 22px 22px 24px;
+    margin-bottom: 18px;
+  }
+
+  label{
+    display: block;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 14px 0 6px;
+  }
+  label:first-of-type{ margin-top: 0; }
+
+  input, textarea{
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 11px 13px;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  textarea{ min-height: 70px; resize: vertical; }
+  input:focus, textarea:focus{
+    outline: none;
+    border-color: var(--cyan);
+  }
+
+  button{
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.08);
+    color: var(--ink);
+    padding: 11px 20px;
+    cursor: pointer;
+  }
+  button:hover{ background: rgba(255,255,255,0.16); }
+
+  .primary{
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.5), rgba(34,211,238,0.4));
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  #connectedBar{
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+  }
+  #connectedBar span{ color: var(--green); font-weight: 500; font-size: 0.9rem; }
+
+  .dropRow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.92rem;
+  }
+  .dropRow:last-child{ border-bottom: none; }
+  .delBtn{
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    color: var(--coral);
+    border-color: rgba(255,138,101,0.35);
+    background: rgba(255,138,101,0.08);
+  }
+
+  #log{
+    min-height: 20px;
+    font-size: 0.88rem;
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  .hint{
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: -4px 0 14px;
+  }
+  .hint a{ color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Admin</h1>
+  <p class="sub">Add or remove drops on aryanbuilds.qd.je — changes publish straight to the live site.</p>
+
+  <div id="tokenSection" class="panel">
+    <h2>Connect once</h2>
+    <p class="hint">
+      Needs a GitHub token scoped to just the Aryanbuilds repo.
+      <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create one here</a>
+      — under "Repository access" pick only Aryanbuilds, and under "Permissions" set
+      Contents to Read and write. Paste it below.
+    </p>
+    <input id="tokenInput" type="password" placeholder="github_pat_...">
+    <button class="primary" id="saveTokenBtn">Connect</button>
+  </div>
+
+  <div id="connectedBar" class="panel">
+    <span>Connected</span>
+    <button id="forgetTokenBtn">Disconnect</button>
+  </div>
+
+  <div id="mainPanel" style="display:none">
+    <div class="panel">
+      <h2>Add a new drop</h2>
+      <label>Project name</label>
+      <input id="fName" placeholder="e.g. Winter Arc Tracker">
+      <label>One-line description</label>
+      <textarea id="fDesc" placeholder="What it does, in one sentence"></textarea>
+      <label>Link</label>
+      <input id="fLink" placeholder="https://yourproject.netlify.app/">
+      <label>Status label</label>
+      <input id="fStatus" value="Live">
+      <button class="primary" id="publishBtn">Publish</button>
+    </div>
+
+    <div class="panel">
+      <h2>Existing drops</h2>
+      <div id="dropsList">Loading…</div>
+    </div>
+  </div>
+
+  <div id="log"></div>
+</div>
+
+<script>
+  const OWNER = 'itzaryan44';
+  const REPO = 'Aryanbuilds';
+  const FILE_PATH = 'index.html';
+  const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
+  const tokenKey = 'aryanbuilds_admin_token';
+
+  let token = localStorage.getItem(tokenKey);
+
+  const tokenSection = document.getElementById('tokenSection');
+  const connectedBar = document.getElementById('connectedBar');
+  const mainPanel = document.getElementById('mainPanel');
+  const logEl = document.getElementById('log');
+
+  function log(msg, isError){
+    logEl.textContent = msg;
+    logEl.style.color = isError ? 'var(--coral)' : 'var(--green)';
+  }
+
+  function showConnected(){
+    tokenSection.style.display = 'none';
+    connectedBar.style.display = 'flex';
+    mainPanel.style.display = 'block';
+    loadDrops();
+  }
+
+  if (token) showConnected();
+
+  document.getElementById('saveTokenBtn').addEventListener('click', () => {
+    const val = document.getElementById('tokenInput').value.trim();
+    if(!val){ log('Paste a token first.', true); return; }
+    localStorage.setItem(tokenKey, val);
+    token = val;
+    showConnected();
+  });
+
+  document.getElementById('forgetTokenBtn').addEventListener('click', () => {
+    localStorage.removeItem(tokenKey);
+    token = null;
+    tokenSection.style.display = 'block';
+    connectedBar.style.display = 'none';
+    mainPanel.style.display = 'none';
+    log('');
+  });
+
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p1) => String.fromCharCode('0x' + p1)));
+  }
+  function b64DecodeUnicode(str) {
+    return decodeURIComponent(atob(str.replace(/\n/g,'')).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+  }
+
+  async function fetchFile(){
+    const res = await fetch(API, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if(!res.ok) throw new Error('Could not read the site file — check your token has access.');
+    const data = await res.json();
+    return { content: b64DecodeUnicode(data.content), sha: data.sha };
+  }
+
+  async function saveFile(newContent, sha, message){
+    const res = await fetch(API, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify({
+        message,
+        content: b64EncodeUnicode(newContent),
+        sha
+      })
+    });
+    if(!res.ok){
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Publish failed.');
+    }
+  }
+
+  function renumber(doc){
+    const cards = doc.querySelectorAll('.grid .card:not(.placeholder)');
+    cards.forEach((card, i) => {
+      const num = card.querySelector('.index-no');
+      if(num) num.textContent = String(i + 1).padStart(2, '0');
+    });
+  }
+
+  function slugify(name){
+    return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || ('drop-' + Date.now());
+  }
+
+  async function loadDrops(){
+    const listEl = document.getElementById('dropsList');
+    try{
+      const { content } = await fetchFile();
+      const doc = new DOMParser().parseFromString(content, 'text/html');
+      const cards = doc.querySelectorAll('.grid .card:not(.placeholder)');
+      listEl.innerHTML = '';
+      cards.forEach(card => {
+        const name = card.querySelector('h3')?.textContent || '(unnamed)';
+        const slug = card.dataset.slug || '';
+        const row = document.createElement('div');
+        row.className = 'dropRow';
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Remove';
+        delBtn.className = 'delBtn';
+        delBtn.addEventListener('click', () => removeDrop(slug, name));
+        row.appendChild(nameSpan);
+        row.appendChild(delBtn);
+        listEl.appendChild(row);
+      });
+      if(!cards.length) listEl.textContent = 'No drops yet.';
+    }catch(e){
+      listEl.textContent = 'Could not load drops.';
+      log(e.message, true);
+    }
+  }
+
+  async function removeDrop(slug, name){
+    if(!confirm(`Remove "${name}"?`)) return;
+    try{
+      const { content, sha } = await fetchFile();
+      const doc = new DOMParser().parseFromString(content, 'text/html');
+      const target = slug ? doc.querySelector(`[data-slug="${slug}"]`) : null;
+      if(target) target.remove();
+      renumber(doc);
+      const newHtml = '<!doctype html>\n' + doc.documentElement.outerHTML;
+      await saveFile(newHtml, sha, `Remove drop: ${name}`);
+      log(`Removed "${name}". Live in about a minute.`);
+      loadDrops();
+    }catch(e){
+      log(e.message, true);
+    }
+  }
+
+  document.getElementById('publishBtn').addEventListener('click', async () => {
+    const name = document.getElementById('fName').value.trim();
+    const desc = document.getElementById('fDesc').value.trim();
+    const link = document.getElementById('fLink').value.trim();
+    const status = document.getElementById('fStatus').value.trim() || 'Live';
+
+    if(!name || !desc || !link){
+      log('Fill in name, description and link.', true);
+      return;
+    }
+
+    try{
+      const { content, sha } = await fetchFile();
+      const doc = new DOMParser().parseFromString(content, 'text/html');
+      const grid = doc.querySelector('.grid');
+      const placeholder = doc.querySelector('.grid .placeholder');
+
+      const slug = slugify(name);
+      const badgeLetter = name.trim()[0].toUpperCase();
+
+      const card = doc.createElement('div');
+      card.className = 'card glass';
+      card.dataset.slug = slug;
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="badge"></span>
+          <span class="index-no">00</span>
+        </div>
+        <h3></h3>
+        <p></p>
+        <div class="card-foot">
+          <span class="status"></span>
+          <a class="open-btn"></a>
+        </div>
+      `;
+      card.querySelector('.badge').textContent = badgeLetter;
+      card.querySelector('h3').textContent = name;
+      card.querySelector('p').textContent = desc;
+      card.querySelector('.status').textContent = status;
+      const a = card.querySelector('.open-btn');
+      a.textContent = 'Open ' + name;
+      a.href = link;
+
+      if(placeholder){
+        grid.insertBefore(card, placeholder);
+      } else {
+        grid.appendChild(card);
+      }
+
+      renumber(doc);
+
+      const newHtml = '<!doctype html>\n' + doc.documentElement.outerHTML;
+      await saveFile(newHtml, sha, `Add drop: ${name}`);
+
+      log(`Published "${name}". Live in about a minute.`);
+      document.getElementById('fName').value = '';
+      document.getElementById('fDesc').value = '';
+      document.getElementById('fLink').value = '';
+      document.getElementById('fStatus').value = 'Live';
+      loadDrops();
+    }catch(e){
+      log(e.message, true);
+    }
+  });
+</script>
+</body>
+</html>
