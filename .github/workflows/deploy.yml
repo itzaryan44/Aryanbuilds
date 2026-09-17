@@ -1,0 +1,74 @@
+name: Build and Deploy Advert
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare Advert source
+        run: |
+          rm -rf /tmp/advert
+          mkdir -p /tmp/advert
+          unzip -q advert-github-source.zip -d /tmp/advert
+
+      - name: Install dependencies
+        working-directory: /tmp/advert
+        run: npm install
+
+      - name: Build Advert
+        working-directory: /tmp/advert
+        run: npm run build
+
+      - name: Prepare complete website
+        run: |
+          rm -rf /tmp/site
+          mkdir -p /tmp/site
+
+          rsync -a \
+            --exclude='.git' \
+            --exclude='advert' \
+            --exclude='advert-github-source.zip' \
+            ./ /tmp/site/
+
+          mkdir -p /tmp/site/advert
+          cp -r /tmp/advert/dist/. /tmp/site/advert/
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: /tmp/site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
